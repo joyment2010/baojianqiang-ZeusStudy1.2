@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 import com.android.sdklib.BuildToolInfo
 import java.lang.reflect.Method
 
-Task modifyAaptPathTask = task('modifyAaptPath') << {
+/*Task modifyAaptPathTask = task('modifyAaptPath') << {
     android.applicationVariants.all { variant ->
         BuildToolInfo buildToolInfo = variant.androidBuilder.getTargetInfo().getBuildTools()
         Method addMethod = BuildToolInfo.class.getDeclaredMethod("add", BuildToolInfo.PathId.class, File.class)
@@ -12,16 +12,16 @@ Task modifyAaptPathTask = task('modifyAaptPath') << {
         addMethod.invoke(buildToolInfo, BuildToolInfo.PathId.AAPT, new File(rootDir, "aapt_mac"))
         println "[LOG] new aapt path = " + buildToolInfo.getPath(BuildToolInfo.PathId.AAPT)
     }
-}
+}*/
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "jianqiang.com.plugin1"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -37,12 +37,16 @@ android {
     }
 
 
-    preBuild.doFirst {
+    /*preBuild.doFirst {
         modifyAaptPathTask.execute()
     }
 
     aaptOptions {
         aaptOptions.additionalParameters '--PLUG-resoure-id', '0x71'
+    }*/
+	
+	aaptOptions {
+        additionalParameters "--warn-manifest-validation", "--allow-reserved-package-id", "--package-id", "0x15"
     }
 }
 
